@@ -1,0 +1,25 @@
+<div class="bg-primary-subtle rounded p-2">
+  <input [formControl]="month" class="form-control form-control-sm w-auto" type="month">
+</div>
+
+<div class="row mt-3 align-items-start">
+  <div class="col col-9">
+    <div class="row g-2">
+      <ng-container *ngIf="records | async as recordsMap">
+        <div class="col-week" *ngFor="let _ of firstDayOffset | fill"></div>
+
+        <ng-container *ngFor="let record of recordsMap | keyvalue : keyAscOrder">
+          <div class="col-week">
+            <app-archive-table-item [weather]="record.value" (click)="selectDay(record.key)"></app-archive-table-item>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="col col-3">
+    <div>
+      <app-archive-hourly [weather]="selected | async"></app-archive-hourly>
+    </div>
+  </div>
+</div>

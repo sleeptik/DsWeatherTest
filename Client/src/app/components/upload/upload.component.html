@@ -1,0 +1,38 @@
+<div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+  <div class="bg-primary-subtle rounded py-5 text-center" (dragover)="dragOver($event)" (drop)="drop($event)">
+    <p class="mt-3 mb-0 text-muted">
+      Переместите файлы в эту область
+    </p>
+    <p>
+      <a class="text-primary" style="cursor: pointer" (click)="selectFiles()">
+        <small>
+          Или выберите файлы вручную
+        </small>
+      </a>
+    </p>
+
+
+  </div>
+
+  <div *ngIf="(files | async)?.length">
+    <h6 class="my-3">Выбранные файлы</h6>
+
+    <table [dataSource]="files" cdk-table class="table table-sm">
+      <ng-container cdkColumnDef="name">
+        <th *cdkHeaderCellDef cdk-header-cell>Название файла</th>
+        <td *cdkCellDef="let file" cdk-cell>{{ file.name }}</td>
+      </ng-container>
+
+      <tr *cdkHeaderRowDef="['name']" cdk-header-row></tr>
+      <tr *cdkRowDef="let row; columns: ['name']" cdk-row></tr>
+    </table>
+
+    <button (click)="uploadFiles()" class="btn btn-sm btn-success mt-3 w-100">
+      Загрузить
+    </button>
+  </div>
+
+  <input #fileInput (input)="filesSelected()"
+         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+         hidden multiple type="file">
+</div>

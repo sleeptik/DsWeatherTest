@@ -1,0 +1,67 @@
+<div *ngIf="weather" class="p-2 bg-body-tertiary rounded">
+  <div *ngFor="let hour of weather" class="bg-body border border-light-subtle rounded m-2 p-2">
+
+    <div class="row justify-content-between small">
+      <div class="col text-start">
+        <i class="bi bi-clock"></i>
+        {{ hour.dateTime.toLocaleTimeString() }}
+      </div>
+
+      <div class="col text-end">
+        {{ hour.dateTime.toLocaleDateString() }}
+        <i class="bi bi-calendar"></i>
+      </div>
+    </div>
+
+    <div class="row row-cols-3 mx-0 small text-end">
+      <div class="col">
+        {{ hour.temperature }}&deg;
+        <i class="bi bi-thermometer-half"></i>
+      </div>
+      <div class="col">
+        {{ hour.dewPoint }}&deg;
+        <i class="bi bi-droplet"></i>
+      </div>
+      <div class="col">
+        {{ hour.humidity | number : "1.0-1" }}
+        <i class="bi bi-moisture"></i>
+      </div>
+      <div class="col">
+        {{ hour.atmospherePressure }}
+        <i class="bi bi-arrow-bar-down"></i>
+      </div>
+      <div class="col">
+        {{ hour.windSpeed ?? "-" }} <span *ngIf="hour.windSpeed" class="small">м/c </span>
+        <i class="bi bi-wind"></i>
+      </div>
+      <div class="col">
+        <div *ngIf="hour.windDirections && hour.windDirections.length > 0; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+                <span *ngFor="let direction of hour.windDirections; last as last">{{ direction.name }}
+                  <span *ngIf="!last">,</span>
+                </span>
+        </ng-template>
+        <ng-template #elseBlock>- </ng-template>
+        <i class="bi bi-compass"></i>
+      </div>
+      <div class="col">
+        {{ hour.overcast ?? "-" }}
+        <i class="bi bi-clouds"></i>
+      </div>
+      <div class="col">
+        {{ hour.cloudBase ?? "-" }} <span *ngIf="hour.cloudBase" class="small">м </span>
+        <i class="bi bi-cloud-arrow-down"></i>
+      </div>
+      <div class="col">
+        {{ hour.horizontalVisibility ?? "-" }} <span *ngIf="hour.horizontalVisibility" class="small">км </span>
+        <i class="bi bi-binoculars"></i>
+      </div>
+    </div>
+
+    <div class="text-center small">
+      {{ hour.weatherActivity?.name ?? "-" }}
+    </div>
+  </div>
+
+
+</div>
